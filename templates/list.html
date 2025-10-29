@@ -15,10 +15,10 @@
 <div class="pagination">
   <% if (hasPrev) { %>
   <a href="/fires?page=<%= prevPage %>" class="pagination-btn prev">
-    ← Previous Page
+    Previous Page
   </a>
   <% } else { %>
-  <span class="pagination-btn disabled">← Previous Page</span>
+  <span class="pagination-btn disabled">Previous Page</span>
   <% } %>
 
   <span class="pagination-info">
@@ -27,10 +27,10 @@
 
   <% if (hasNext) { %>
   <a href="/fires?page=<%= nextPage %>" class="pagination-btn next">
-    Next Page →
+    Next Page
   </a>
   <% } else { %>
-  <span class="pagination-btn disabled">Next Page →</span>
+  <span class="pagination-btn disabled">Next Page</span>
   <% } %>
 </div>
 
@@ -43,7 +43,7 @@
         <th>Y Coord</th>
         <th>Month</th>
         <th>Day</th>
-        <th>Temp (°C)</th>
+        <th>Temp (C)</th>
         <th>RH (%)</th>
         <th>Wind (km/h)</th>
         <th>Rain (mm)</th>

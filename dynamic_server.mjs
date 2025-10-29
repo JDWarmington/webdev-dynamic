@@ -129,7 +129,7 @@ app.get("/fires/weather/hot-dry", (_req, res, next) => {
       if (rows.length === 0) {
         return res.status(404).render("notfound", {
           title: "404 - No Hot-Dry Fires",
-          msg: "Error: no fire data found for hot-dry conditions (temp ≥ 25°C & RH ≤ 35%)",
+          msg: "Error: no fire data found for hot-dry conditions (temp >= 25C & RH <= 35%)",
           suggestion: "Try viewing all fires or fires by month instead.",
         });
       }
