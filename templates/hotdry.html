@@ -1,0 +1,68 @@
+<h2><%= title %></h2>
+
+<!-- Statistics Overview -->
+<div class="stats-overview">
+  <div class="stat-card hot">
+    <div class="stat-icon">H</div>
+    <div class="stat-content">
+      <h3>Hot-Dry Fires</h3>
+      <div class="stat-number"><%= rows.length %></div>
+      <div class="stat-label">temp ≥ 25°C & RH ≤ 35%</div>
+    </div>
+  </div>
+  <div class="stat-card stats">
+    <div class="stat-icon">A</div>
+    <div class="stat-content">
+      <h3>Average Area</h3>
+      <div class="stat-number"><%= stat.avg_area %></div>
+      <div class="stat-label">hectares burned</div>
+    </div>
+  </div>
+</div>
+
+<div class="data-summary">
+  <p>
+    Showing <strong><%= rows.length %></strong> fire records with hot and dry
+    conditions
+  </p>
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>X Coord</th>
+        <th>Y Coord</th>
+        <th>Month</th>
+        <th>Day</th>
+        <th>Temp (°C)</th>
+        <th>RH (%)</th>
+        <th>Wind (km/h)</th>
+        <th>Rain (mm)</th>
+        <th>Area (ha)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% rows.forEach(r => { %>
+      <tr>
+        <td><%= r.id %></td>
+        <td><%= r.x %></td>
+        <td><%= r.y %></td>
+        <td><%= r.month %></td>
+        <td><%= r.day %></td>
+        <td class="temp-high"><%= r.temp %></td>
+        <td class="rh-low"><%= r.rh %></td>
+        <td class="wind-cell"><%= r.wind %></td>
+        <td class="rain-cell"><%= r.rain %></td>
+        <td class="area-cell"><%= r.area %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="chart">
+  <h3>Fire Statistics Visualization</h3>
+  <canvas id="fireStatsChart"></canvas>
+</div>
