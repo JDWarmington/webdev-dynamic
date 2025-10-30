@@ -4,7 +4,8 @@
   "description": "Dynamic web server for UCI Forest Fires dataset",
   "author": "Jackson Warmington (JDWarmington)",
   "contributors": [
-    "Jackson Warmington (JDWarmington)"
+    "Jackson Warmington (JDWarmington)",
+    "Eyoel Woldehawariat (eyoelshim)"
   ],
   "repository": "https://github.com/JDWarmington/webdev-dynamic",
   "license": "MIT",
