@@ -1,0 +1,74 @@
+<h2>$$$TITLE$$$</h2>
+
+<!-- Statistics Overview -->
+<div class="stats-overview">
+  <div class="stat-card wind">
+    <div class="stat-icon">W</div>
+    <div class="stat-content">
+      <h3>$$$CATEGORY_NAME$$$</h3>
+      <div class="stat-number">$$$ROW_COUNT$$$</div>
+      <div class="stat-label">fires on this page</div>
+    </div>
+  </div>
+  <div class="stat-card stats">
+    <div class="stat-icon">A</div>
+    <div class="stat-content">
+      <h3>Average Area</h3>
+      <div class="stat-number">$$$AVG_AREA$$$</div>
+      <div class="stat-label">hectares burned</div>
+    </div>
+  </div>
+  <div class="stat-card stats">
+    <div class="stat-icon">T</div>
+    <div class="stat-content">
+      <h3>Average Temp</h3>
+      <div class="stat-number">$$$AVG_TEMP$$$C</div>
+      <div class="stat-label">temperature</div>
+    </div>
+  </div>
+  <div class="stat-card stats">
+    <div class="stat-icon">H</div>
+    <div class="stat-content">
+      <h3>Average RH</h3>
+      <div class="stat-number">$$$AVG_RH$$$%</div>
+      <div class="stat-label">relative humidity</div>
+    </div>
+  </div>
+</div>
+
+<div class="data-summary">
+  <p>
+    Showing <strong>$$$ROW_COUNT$$$</strong> fire records for
+    <strong>$$$CATEGORY_NAME$$$</strong> wind conditions
+  </p>
+  <p>
+    Page <strong>$$$CURRENT_PAGE$$$</strong> of
+    <strong>$$$TOTAL_PAGES$$$</strong>
+  </p>
+</div>
+
+<!-- Wind Category Navigation -->
+<div class="wind-navigation">$$$WIND_NAV$$$</div>
+
+<!-- Pagination Navigation -->
+<div class="pagination">$$$PAGINATION$$$</div>
+
+<div class="table-container">
+  <table class="hover stack">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Month</th>
+        <th>Day</th>
+        <th>Wind (km/h)</th>
+        <th>Temp (C)</th>
+        <th>RH (%)</th>
+        <th>Rain (mm)</th>
+        <th>Area (ha)</th>
+      </tr>
+    </thead>
+    <tbody>
+      $$$TABLE_ROWS$$$
+    </tbody>
+  </table>
+</div>

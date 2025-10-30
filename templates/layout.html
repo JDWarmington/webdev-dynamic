@@ -2,37 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title><%= title || 'Portugal Forest Fires Dashboard' %></title>
+    <title>Portugal Forest Fires</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
       content="Portugal Forest Fires Data Analysis Dashboard - Track and analyze Portuguese forest fire data with modern visualizations"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+
     <link rel="stylesheet" href="/css/cite.css" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>F</text></svg>"
-    />
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+    </style>
   </head>
   <body>
     <header>
       <div class="container">
-        <h1>Portugal Forest Fires Dashboard</h1>
+        <h1>Portugal Forest Fires</h1>
         <nav>
           <a href="/fires" class="nav-link">All Fires</a>
+          <a href="/fires/wind" class="nav-link">By Wind</a>
           <a href="/fires/weather/hot-dry" class="nav-link">Hot-Dry Fires</a>
           <a href="/fires/month/jan" class="nav-link">By Month</a>
         </nav>
       </div>
     </header>
     <main>
-      <div class="container"><%- body %></div>
+      <div class="container">$$$BODY$$$</div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/vendor/chart.js"></script>

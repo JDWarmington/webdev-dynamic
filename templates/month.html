@@ -1,20 +1,34 @@
-<h2><%= title %></h2>
+<h2>$$$TITLE$$$</h2>
 
 <div class="data-summary">
   <p>
-    Showing <strong><%= rows.length %></strong> fire records for the month of
-    <strong><%= mon.toUpperCase() %></strong>
+    Showing <strong>$$$ROW_COUNT$$$</strong> fire records for the month of
+    <strong>$$$MON_UPPER$$$</strong>
   </p>
 </div>
 
-<div class="month-navigation">
-  <a href="/fires/month/<%= prev %>" class="nav-button prev">
-    Previous Month (<%= prev.toUpperCase() %>)
-  </a>
-  <a href="/fires" class="nav-button home"> All Fires</a>
-  <a href="/fires/month/<%= next %>" class="nav-button next">
-    Next Month (<%= next.toUpperCase() %>)
-  </a>
+<div class="month-navigation" style="text-align: center; margin-bottom: 12px">
+  <button
+    type="button"
+    class="pagination-btn prev"
+    onclick="location.href='/fires/month/$$$PREV_MON$$$'"
+  >
+    Previous Month ($$$PREV_MON_UPPER$$$)
+  </button>
+  <button
+    type="button"
+    class="pagination-btn home"
+    onclick="location.href='/fires'"
+  >
+    All Fires
+  </button>
+  <button
+    type="button"
+    class="pagination-btn next"
+    onclick="location.href='/fires/month/$$$NEXT_MON$$$'"
+  >
+    Next Month ($$$NEXT_MON_UPPER
+  </button>
 </div>
 
 <div class="table-container">
@@ -22,8 +36,6 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>X Coord</th>
-        <th>Y Coord</th>
         <th>Month</th>
         <th>Day</th>
         <th>Temp (C)</th>
@@ -34,20 +46,7 @@
       </tr>
     </thead>
     <tbody>
-      <% rows.forEach(r => { %>
-      <tr>
-        <td><%= r.id %></td>
-        <td><%= r.x %></td>
-        <td><%= r.y %></td>
-        <td><%= r.month %></td>
-        <td><%= r.day %></td>
-        <td class="temp-cell"><%= r.temp %></td>
-        <td class="rh-cell"><%= r.rh %></td>
-        <td class="wind-cell"><%= r.wind %></td>
-        <td class="rain-cell"><%= r.rain %></td>
-        <td class="area-cell"><%= r.area %></td>
-      </tr>
-      <% }) %>
+      $$$TABLE_ROWS$$$
     </tbody>
   </table>
 </div>

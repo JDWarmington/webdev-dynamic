@@ -1,46 +1,24 @@
-<h2><%= title %></h2>
+<h2>$$$TITLE$$$</h2>
 
 <div class="data-summary">
   <p>
-    Showing <strong><%= rows.length %></strong> fire records with complete
-    weather and location data
+    Showing <strong>$$$ROW_COUNT$$$</strong> fire records with complete weather
+    and location data
   </p>
   <p>
-    Page <strong><%= currentPage %></strong> of
-    <strong><%= totalPages %></strong>
+    Page <strong>$$$CURRENT_PAGE$$$</strong> of
+    <strong>$$$TOTAL_PAGES$$$</strong>
   </p>
 </div>
 
 <!-- Pagination Navigation -->
-<div class="pagination">
-  <% if (hasPrev) { %>
-  <a href="/fires?page=<%= prevPage %>" class="pagination-btn prev">
-    Previous Page
-  </a>
-  <% } else { %>
-  <span class="pagination-btn disabled">Previous Page</span>
-  <% } %>
-
-  <span class="pagination-info">
-    Page <%= currentPage %> of <%= totalPages %>
-  </span>
-
-  <% if (hasNext) { %>
-  <a href="/fires?page=<%= nextPage %>" class="pagination-btn next">
-    Next Page
-  </a>
-  <% } else { %>
-  <span class="pagination-btn disabled">Next Page</span>
-  <% } %>
-</div>
+<div class="pagination">$$$PAGINATION$$$</div>
 
 <div class="table-container">
   <table>
     <thead>
       <tr>
         <th>ID</th>
-        <th>X Coord</th>
-        <th>Y Coord</th>
         <th>Month</th>
         <th>Day</th>
         <th>Temp (C)</th>
@@ -51,20 +29,7 @@
       </tr>
     </thead>
     <tbody>
-      <% rows.forEach(r => { %>
-      <tr>
-        <td><%= r.id %></td>
-        <td><%= r.x %></td>
-        <td><%= r.y %></td>
-        <td><%= r.month %></td>
-        <td><%= r.day %></td>
-        <td class="temp-cell"><%= r.temp %></td>
-        <td class="rh-cell"><%= r.rh %></td>
-        <td class="wind-cell"><%= r.wind %></td>
-        <td class="rain-cell"><%= r.rain %></td>
-        <td class="area-cell"><%= r.area %></td>
-      </tr>
-      <% }) %>
+      $$$TABLE_ROWS$$$
     </tbody>
   </table>
 </div>
