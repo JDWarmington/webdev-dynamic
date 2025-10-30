@@ -7,17 +7,14 @@
   </p>
 </div>
 
-<!-- Wind Categories Grid -->
 <div class="wind-categories">$$$WIND_CARDS$$$</div>
 
-<!-- Wind Analysis Chart -->
 <div class="chart">
   <h3>Fire Distribution by Wind Speed</h3>
   <canvas id="windChart"></canvas>
 </div>
 
 <script>
-  // Delay chart initialization until DOM and Chart.js are ready
   document.addEventListener("DOMContentLoaded", function () {
     const canvas = document.getElementById("windChart");
     if (!canvas) return;
@@ -72,74 +69,5 @@
       });
       return;
     }
-
-    // Fallback drawing if Chart.js is not present
-    const labels = windData.map((d) => d.wind_category);
-    const values = windData.map((d) => d.count);
-    const width = canvas.width;
-    const height = canvas.height;
-    const margin = { top: 26, right: 10, bottom: 64, left: 40 };
-    const chartW = width - margin.left - margin.right;
-    const chartH = height - margin.top - margin.bottom;
-
-    ctx.clearRect(0, 0, width, height);
-    ctx.save();
-    ctx.translate(margin.left, margin.top);
-
-    const maxVal = Math.max(1, ...values);
-    const n = values.length;
-    const gap = 10;
-    const barW = (chartW - gap * (n - 1)) / n;
-
-    // axes
-    ctx.strokeStyle = "#444";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, chartH);
-    ctx.lineTo(chartW, chartH);
-    ctx.stroke();
-
-    // ticks
-    ctx.fillStyle = "#333";
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
-    ctx.font = "12px Arial";
-    ctx.fillText("0", -6, chartH);
-    ctx.fillText(String(maxVal), -6, 0);
-
-    // bars
-    for (let i = 0; i < n; i++) {
-      const x = i * (barW + gap);
-      const h = (values[i] / maxVal) * chartH;
-      ctx.fillStyle = "#36A2EB";
-      ctx.fillRect(x, chartH - h, barW, h);
-    }
-
-    // x labels
-    ctx.save();
-    ctx.translate(0, chartH + 8);
-    ctx.textAlign = "right";
-    ctx.textBaseline = "top";
-    ctx.font = "11px Arial";
-    for (let i = 0; i < n; i++) {
-      const x = i * (barW + gap) + barW / 2;
-      ctx.save();
-      ctx.translate(x, 0);
-      ctx.rotate(-Math.PI / 6);
-      ctx.fillStyle = "#333";
-      ctx.fillText(labels[i], 0, 0);
-      ctx.restore();
-    }
-    ctx.restore();
-
-    // title
-    ctx.fillStyle = "#111";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    ctx.font = "14px Arial";
-    ctx.fillText("Fire Distribution by Wind Conditions", chartW / 2, -22);
-
-    ctx.restore();
   });
 </script>

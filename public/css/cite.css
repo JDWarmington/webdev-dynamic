@@ -151,18 +151,18 @@ tbody tr:hover {
 }
 
 /* ========== Pagination buttons ========== */
-.pagination {
+.pav_nav {
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: center;
   padding: 12px 0;
 }
-.pagination-info {
+.pav_nav-info {
   color: #555;
   font-size: 13px;
 }
-.pagination-btn {
+.pav_nav-btn {
   text-decoration: none;
   padding: 6px 10px;
   border: 1px solid #ddd;
@@ -170,10 +170,10 @@ tbody tr:hover {
   background: #fff;
   color: #222;
 }
-.pagination-btn:hover {
+.pav_nav-btn:hover {
   background: #f2f2f2;
 }
-.pagination-btn.disabled {
+.pav_nav-btn.disabled {
   color: #aaa;
   background: #f8f8f8;
   pointer-events: none;

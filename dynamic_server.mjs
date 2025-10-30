@@ -1,8 +1,3 @@
-// Simple Forest Fires Server — basic version (no async/await, no Promises)
-// - Token replacement with $$$PLACEHOLDER$$$
-// - Plain sqlite3 callbacks
-// - Sync template reads inside render()
-
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
@@ -10,7 +5,7 @@ import express from "express";
 import sqlite3 from "sqlite3";
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const port = 8081;
+const port = 3000;
 
 const DIRS = {
   root: path.join(__dirname, "public"),
@@ -28,7 +23,6 @@ const db = new sqlite3.Database(
   }
 );
 
-// Minimal helpers ------------------------------------------------------------
 function replaceAllPairs(html, pairs) {
   let out = html;
   for (let i = 0; i < pairs.length; i++) {
@@ -74,7 +68,6 @@ function canonMon(raw) {
     .toLowerCase();
 }
 
-// Wind categories by numeric id 0..4 (replaces slugs)
 const WIND = [
   { id: 0, label: "Calm (0-2 km/h)", where: "wind < 2" },
   { id: 1, label: "Light (2-4 km/h)", where: "wind >= 2 AND wind < 4" },
@@ -83,7 +76,6 @@ const WIND = [
   { id: 4, label: "Very Strong (8+ km/h)", where: "wind >= 8" },
 ];
 
-// Column orders for building table rows inline
 const TABLE_ORDER_DEFAULT = [
   "id",
   "month",
@@ -105,16 +97,14 @@ const TABLE_ORDER_WIND = [
   "area",
 ];
 
-// App ------------------------------------------------------------------------
 const app = express();
 app.use(express.static(DIRS.root));
 
-// Home
 app.get("/", function (_req, res) {
   res.redirect("/fires");
 });
 
-// All fires (paginated)
+// All fires
 app.get("/fires", function (_req, res) {
   db.all("SELECT * FROM fires ORDER BY id", [], function (err, rows) {
     if (err) return res.status(500).type("text").send("DB error");
@@ -129,9 +119,7 @@ app.get("/fires", function (_req, res) {
     render(res, "list", [
       ["TITLE", "Portugal Forest Fires"],
       ["ROW_COUNT", (rows || []).length],
-      ["CURRENT_PAGE", 1],
-      ["TOTAL_PAGES", 1],
-      ["PAGINATION", ""],
+      ["PAGE_NAV", ""],
       ["TABLE_ROWS", tableRows],
     ]);
   });
@@ -142,7 +130,7 @@ app.get("/fires/month/:mon", function (req, res) {
   const raw = String(req.params.mon || "");
   const mon = canonMon(raw);
 
-  if (ALLOWED_MON.indexOf(mon) === -1) {
+  if (!ALLOWED_MON.includes(mon)) {
     return render(
       res,
       "notfound",
@@ -184,10 +172,10 @@ app.get("/fires/month/:mon", function (req, res) {
         );
       }
 
-      const idx = ALLOWED_MON.indexOf(mon);
+      const tempMon = ALLOWED_MON.indexOf(mon);
       const prev =
-        ALLOWED_MON[(idx + ALLOWED_MON.length - 1) % ALLOWED_MON.length];
-      const next = ALLOWED_MON[(idx + 1) % ALLOWED_MON.length];
+        ALLOWED_MON[(tempMon + ALLOWED_MON.length - 1) % ALLOWED_MON.length];
+      const next = ALLOWED_MON[(tempMon + 1) % ALLOWED_MON.length];
 
       let tableRows = "";
       for (let i = 0; i < rows.length; i++) {
@@ -212,16 +200,16 @@ app.get("/fires/month/:mon", function (req, res) {
 
 // Hot & Dry
 app.get("/fires/weather/hot-dry", function (_req, res) {
-  const where = "temp >= 25 AND rh <= 35";
+  const dbResponse = "temp >= 25 AND rh <= 35";
 
   db.all(
-    `SELECT * FROM fires WHERE ${where} ORDER BY id`,
+    `SELECT * FROM fires WHERE ${dbResponse} ORDER BY id`,
     [],
     function (e1, rows) {
       if (e1) return res.status(500).type("text").send("DB error");
 
       db.get(
-        `SELECT ROUND(AVG(area),2) AS avg_area FROM fires WHERE ${where}`,
+        `SELECT ROUND(AVG(area),2) AS avg_area FROM fires WHERE ${dbResponse}`,
         [],
         function (e2, stat) {
           if (e2) return res.status(500).type("text").send("DB error");
@@ -264,7 +252,7 @@ app.get("/fires/weather/hot-dry", function (_req, res) {
   );
 });
 
-// Wind overview
+// Wind
 app.get("/fires/wind", function (_req, res) {
   const sql =
     "SELECT " +
@@ -284,7 +272,6 @@ app.get("/fires/wind", function (_req, res) {
 
     const cards = (stats || [])
       .map(function (s) {
-        // Map label to numeric id 0..4
         const lbl = String(s.wind_category || "").toLowerCase();
         let id = 0;
         if (lbl.indexOf("light") === 0) id = 1;
@@ -313,24 +300,24 @@ app.get("/fires/wind", function (_req, res) {
   });
 });
 
-// Wind detail (category) — paginated
+// Wind detail
 app.get("/fires/wind/:id", function (req, res) {
-  const idx = parseInt(req.params.id);
-  let cat = null;
+  const tempID = parseInt(req.params.id);
+  let windDetail = null;
   for (let i = 0; i < WIND.length; i++) {
-    if (WIND[i].id === idx) {
-      cat = WIND[i];
+    if (WIND[i].id === tempID) {
+      windDetail = WIND[i];
       break;
     }
   }
 
-  if (!cat) {
+  if (!windDetail) {
     return render(
       res,
       "notfound",
       [
         ["TITLE", "404 - Wind Category Not Found"],
-        ["MSG", `Error: wind category "${req.params.category}" not found`],
+        ["MSG", `Error: wind category id "${req.params.id}" not found`],
         [
           "SUGGESTION_HTML",
           '<p class="suggestion">Valid: calm, light, moderate, strong, very-strong</p>',
@@ -341,7 +328,7 @@ app.get("/fires/wind/:id", function (req, res) {
   }
 
   db.get(
-    `SELECT COUNT(*) AS total FROM fires WHERE ${cat.where}`,
+    `SELECT COUNT(*) AS total FROM fires WHERE ${windDetail.where}`,
     [],
     function (e1, c) {
       if (e1) return res.status(500).type("text").send("DB error");
@@ -352,14 +339,14 @@ app.get("/fires/wind/:id", function (req, res) {
           "notfound",
           [
             ["TITLE", "404 - No Fires Found"],
-            ["MSG", `No fires found for ${cat.label} wind conditions`],
+            ["MSG", `No fires found for ${windDetail.label} wind conditions`],
           ],
           404
         );
       }
 
       db.all(
-        `SELECT * FROM fires WHERE ${cat.where} ORDER BY wind DESC, id`,
+        `SELECT * FROM fires WHERE ${windDetail.where} ORDER BY wind DESC, id`,
         [],
         function (e2, rows) {
           if (e2) return res.status(500).type("text").send("DB error");
@@ -368,7 +355,7 @@ app.get("/fires/wind/:id", function (req, res) {
             `SELECT ROUND(AVG(area), 2) AS avg_area,
                   ROUND(AVG(temp), 1) AS avg_temp,
                   ROUND(AVG(rh),   1) AS avg_rh
-           FROM fires WHERE ${cat.where}`,
+           FROM fires WHERE ${windDetail.where}`,
             [],
             function (e3, stats) {
               if (e3) return res.status(500).type("text").send("DB error");
@@ -384,21 +371,19 @@ app.get("/fires/wind/:id", function (req, res) {
               for (let i = 0; i < WIND.length; i++) {
                 const w = WIND[i];
                 windNav += `<a href="/fires/wind/${w.id}" class="nav-button ${
-                  w.id === cat.id ? "active" : ""
+                  w.id === windDetail.id ? "active" : ""
                 }">${w.label.split(" ")[0]}</a>\n`;
               }
               windNav += `<a href="/fires/wind" class="nav-button home">All Wind Categories</a>`;
 
               render(res, "wind-detail", [
-                ["TITLE", `Portugal Fires - ${cat.label}`],
-                ["CATEGORY_NAME", cat.label],
+                ["TITLE", `Portugal Fires - ${windDetail.label}`],
+                ["CATEGORY_NAME", windDetail.label],
                 ["ROW_COUNT", (rows || []).length],
                 ["AVG_AREA", Number((stats && stats.avg_area) || 0).toFixed(2)],
                 ["AVG_TEMP", Number((stats && stats.avg_temp) || 0).toFixed(1)],
                 ["AVG_RH", Number((stats && stats.avg_rh) || 0).toFixed(1)],
-                ["CURRENT_PAGE", 1],
-                ["TOTAL_PAGES", 1],
-                ["PAGINATION", ""],
+                ["PAGE_NAV", ""],
                 ["TABLE_ROWS", tableRows],
                 ["WIND_NAV", windNav],
               ]);
@@ -410,7 +395,7 @@ app.get("/fires/wind/:id", function (req, res) {
   );
 });
 
-// 404 → redirect home
+// 404
 app.use(function (_req, res) {
   res.redirect("/");
 });
