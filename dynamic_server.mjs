@@ -13,7 +13,7 @@ const DIRS = {
   db: path.join(__dirname, "db"),
 };
 
-// DB (read-only)
+// DB
 const db = new sqlite3.Database(
   path.join(DIRS.db, "fires.db"),
   sqlite3.OPEN_READONLY,
@@ -62,6 +62,7 @@ const ALLOWED_MON = [
   "nov",
   "dec",
 ];
+
 function canonMon(raw) {
   return String(raw || "")
     .slice(0, 3)
@@ -86,6 +87,7 @@ const TABLE_ORDER_DEFAULT = [
   "rain",
   "area",
 ];
+
 const TABLE_ORDER_WIND = [
   "id",
   "month",
