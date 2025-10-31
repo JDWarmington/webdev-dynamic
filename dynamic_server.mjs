@@ -192,19 +192,19 @@ app.get("/fires/month/:mon", function (req, res) {
         imageHTML = `<img
     src="/images/portfire2.jpg"
     alt="Portugal forest fire image for ${mon.toUpperCase()}"
-    style="width: 33.33%; height: auto; margin-top: 12px; border-radius: 8px; border: 1px solid #eee;"
+    style="width: 33.33%; height: auto;"
   />`;
       } else if (mon === "feb") {
         imageHTML = `<img
     src="/images/portugalfire.JPG"
     alt="Portugal forest fire image for ${mon.toUpperCase()}"
-    style="width: 33.33%; height: auto; margin-top: 12px; border-radius: 8px; border: 1px solid #eee;"
+    style="width: 33.33%; height: auto;"
   />`;
       } else if (mon === "dec") {
         imageHTML = `<img
     src="/images/portugal3.jpg"
     alt="Portugal forest fire image for ${mon.toUpperCase()}"
-    style="width: 33.33%; height: auto; margin-top: 12px; border-radius: 8px; border: 1px solid #eee;"
+    style="width: 33.33%; height: auto;"
   />`;
       }
 
