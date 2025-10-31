@@ -343,10 +343,7 @@ app.get("/fires/wind/:id", function (req, res) {
       [
         ["TITLE", "404 - Wind Category Not Found"],
         ["MSG", `Error: wind category id "${req.params.id}" not found`],
-        [
-          "SUGGESTION_HTML",
-          '<p class="suggestion">Valid: calm, light, moderate, strong, very-strong</p>',
-        ],
+        ["SUGGESTION_HTML", '<p class="suggestion">Valid: 0, 1, 2, 3, 4</p>'],
       ],
       404
     );
